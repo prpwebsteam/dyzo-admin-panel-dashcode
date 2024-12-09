@@ -92,7 +92,9 @@ const ProjectList = ({ companies }) => {
                 {actions.map((item, i) => (
                   <div
                     key={i}
-                    onClick={() => item.doit(row?.row?.original)}
+                    onClick={() =>
+                       item.doit(row?.row?.original)
+                      }
                   >
                     <div className={`w-full  border-opacity-10 px-2 py-2 text-sm`}>
                       <span className="text-base cursor-pointer">
@@ -114,7 +116,11 @@ const ProjectList = ({ companies }) => {
     {
       name: "view",
       icon: "heroicons-outline:eye",
-      doit: (item) => navigate(`/companies/${item._id}`),
+      doit: (item) => 
+        // console.log("iiid", item)
+        // navigate(`/companieslist/${item}`)
+        navigate(`/companydetail/${item._id}`)
+      ,
     },
     {
       name: "edit",

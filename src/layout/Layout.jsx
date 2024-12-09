@@ -114,9 +114,9 @@ const Layout = () => {
         </div>
       </div>
       {width < breakpoints.md && <MobileFooter />}
-      {width > breakpoints.md && (
+      {/* {width > breakpoints.md && (
         <Footer className={width > breakpoints.xl ? switchHeaderClass() : ""} />
-      )}
+      )} */}
     </>
   );
 };

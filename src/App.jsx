@@ -103,6 +103,7 @@ const TodoPage = lazy(() => import("./pages/app/todo"));
 const EmailPage = lazy(() => import("./pages/app/email"));
 const ChatPage = lazy(() => import("./pages/app/chat"));
 const CompanyPage = lazy(() => import("./pages/app/projects"));
+const CompanyDetails = lazy(()=>import("./pages/app/projects/CompanyDetails"))
 const ProjectDetailsPage = lazy(() =>
   import("./pages/app/projects/project-details")
 );
@@ -156,6 +157,8 @@ function App() {
           <Route path="email" element={<EmailPage />} />
           <Route path="chat" element={<ChatPage />} />
           <Route path="companies" element={<CompanyPage />} />
+          <Route path="companydetail/:id" element={<CompanyDetails />} />
+          
           <Route path={"projects/:id"} element={<ProjectDetailsPage />} />
           <Route path="project-details" element={<ProjectDetailsPage />} />
           <Route path="kanban" element={<KanbanPage />} />

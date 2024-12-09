@@ -28,7 +28,7 @@ const CompanyPage = () => {
     const getCompanies = async () => {
       try {
         setIsLoaded(true)
-        const companies = await fetchGET(`https://api.dyzo.ai/super/api/companies/`)
+        const companies = await fetchGET(`http://localhost:8000/super/api/companies/`)
         if (companies.length > 0) {
           setCompanies(companies)
           setFilterCompanies(companies)
