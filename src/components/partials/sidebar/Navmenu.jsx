@@ -33,13 +33,11 @@ const Navmenu = ({ menus }) => {
   };
 
   const isLocationMatch = (targetLocation) => {
-    return (
-      locationName === targetLocation ||
-      locationName.startsWith(`${targetLocation}/`)
-    );
+    return targetLocation && location.pathname.startsWith(`/${targetLocation}`);
   };
 
   useEffect(() => {
+
     let submenuIndex = null;
     let multiMenuIndex = null;
     menus.forEach((item, i) => {
@@ -83,9 +81,8 @@ const Navmenu = ({ menus }) => {
             className={` single-sidebar-menu 
               ${item.child ? "item-has-children" : ""}
               ${activeSubmenu === i ? "open" : ""}
-              ${locationName === item.link ? "menu-item-active" : ""}`}
+              ${isLocationMatch(item.link) ? "menu-item-active" : ""}`}
           >
-            {/* single menu with no childred*/}
             {!item.child && !item.isHeadr && (
               <NavLink className="menu-link" to={item.link}>
                 <span className="menu-icon flex-grow-0">
@@ -95,11 +92,9 @@ const Navmenu = ({ menus }) => {
                 {item.badge && <span className="menu-badge">{item.badge}</span>}
               </NavLink>
             )}
-            {/* only for menulabel */}
             {item.isHeadr && !item.child && (
               <div className="menulabel">{item.title}</div>
             )}
-            {/*    !!sub menu parent   */}
             {item.child && (
               <div
                 className={`menu-link ${
@@ -126,7 +121,6 @@ const Navmenu = ({ menus }) => {
                 </div>
               </div>
             )}
-
             <Submenu
               activeSubmenu={activeSubmenu}
               item={item}

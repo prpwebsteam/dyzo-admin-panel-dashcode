@@ -157,7 +157,7 @@ function App() {
           <Route path="email" element={<EmailPage />} />
           <Route path="chat" element={<ChatPage />} />
           <Route path="companies" element={<CompanyPage />} />
-          <Route path="companydetail/:id" element={<CompanyDetails />} />
+          <Route path="companies/companydetail/:id" element={<CompanyDetails />} />
           
           <Route path={"projects/:id"} element={<ProjectDetailsPage />} />
           <Route path="project-details" element={<ProjectDetailsPage />} />

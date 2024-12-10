@@ -119,7 +119,7 @@ const ProjectList = ({ companies }) => {
       doit: (item) => 
         // console.log("iiid", item)
         // navigate(`/companieslist/${item}`)
-        navigate(`/companydetail/${item._id}`)
+        navigate(`/companies/companydetail/${item._id}`)
       ,
     },
     {
