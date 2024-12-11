@@ -10,6 +10,7 @@ import {
   useGlobalFilter,
   usePagination,
 } from "react-table";
+import { useNavigate } from "react-router-dom";
 
 const COLUMNS = [
   {
@@ -88,6 +89,8 @@ const CompanyTable = () => {
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => homeTable, []);
 
+  const navigate = useNavigate();
+
   const tableInstance = useTable(
     {
       columns,
@@ -158,7 +161,7 @@ const CompanyTable = () => {
                   ))}
                 </thead>
                 <tbody
-                  className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700"
+                  className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700 "
                   {...getTableBodyProps}
                 >
                   {page.map((row) => {

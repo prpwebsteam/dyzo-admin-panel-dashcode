@@ -2,14 +2,16 @@ import Card from '@/components/ui/Card'
 import { fetchGET } from '@/store/api/apiSlice'
 import { Icon } from '@iconify/react'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const CompanyDetails = () => {
 
   const [companies, setCompanies] = useState({})
-
   const { id } = useParams()
   const baseUrl = "http://127.0.0.1:8000";
+  const navigate = useNavigate();
+  const [date] = companies?.created_at ? companies.created_at.split("T") : ["----", ""];
+  const [date1] = companies?.modification_date ? companies.modification_date.split("T") : ["----", ""];
 
   useEffect(() => {
 
@@ -17,6 +19,7 @@ const CompanyDetails = () => {
       try {
         const companies = await fetchGET(`${baseUrl}/company/${id}`)
         setCompanies(companies)
+        // console.log("companyDetails", companies)
       } catch (error) {
         console.log('Error in companies fetch', error.message)
         setCompanies([])
@@ -80,8 +83,8 @@ const CompanyDetails = () => {
                 <Icon icon="mdi-light:calendar" className='h-6 w-6' />
               </div>
               <div>
-                <span className="font-bold">Created Date & Time:</span>
-                <span className="block">{companies.created_at ? companies.created_at : "----"}</span>
+                <span className="font-bold">Company Registeration Date:</span>
+                <span className="block">{companies.created_at ? date : "----"}</span>
               </div>
             </div>
 
@@ -129,8 +132,7 @@ const CompanyDetails = () => {
 
             <div className='flex items-center'>
               <div className='mr-2'>
-                {(companies?.active) ? <Icon icon="hugeicons:user-status" className='w-6 h-6 text-green-500' /> : <Icon icon="hugeicons:user-status" className='w-6 h-6 text-red-500' />
-                }
+                <Icon icon="hugeicons:user-status" className='w-6 h-6' />
               </div>
               <div>
                 <span className="font-bold">Activity Status:</span>
@@ -150,6 +152,16 @@ const CompanyDetails = () => {
 
             <div className='flex items-center'>
               <div className='mr-2'>
+                <Icon icon="fluent:screenshot-28-regular" className='h-6 w-6' />
+              </div>
+              <div>
+                <span className="font-bold">Mode of Screenshot:</span>
+                <span className="block">{companies.screenshot_mode ? companies.screenshot_mode : "----"}</span>
+              </div>
+            </div>
+            
+            <div className='flex items-center'>
+              <div className='mr-2'>
                 <Icon icon="mingcute:time-line" className='h-6 w-6' />
               </div>
               <div>
@@ -160,25 +172,24 @@ const CompanyDetails = () => {
 
             <div className='flex items-center'>
               <div className='mr-2'>
+                <Icon icon="mdi-light:calendar" className='h-6 w-6' />
+              </div>
+              <div>
+                <span className="font-bold">Modification Date:</span>
+                <span className="block">{companies.modification_date ? date1 : "----"}</span>
+              </div>
+            </div>
+
+            <div className='flex items-center'>
+              <div className='mr-2'>
                 <Icon icon="icon-park-outline:people" className='h-6 w-6' />
               </div>
-              <div className="">
+              <div className="cursor-pointer" onClick={() => { navigate(`/companies/companydetail/employeelist/${id}`) }}>
                 <span className="font-bold">Total Employees:</span>
                 <span className='block'>{companies.total_employees ? companies.total_employees : "----"}</span>
               </div>
             </div>
           </div>
-
-          <div className='flex items-center'>
-            <div className='mr-2'>
-              <Icon icon="mdi-light:calendar" className='h-6 w-6' />
-            </div>
-            <div>
-              <span className="font-bold">Modification Date:</span>
-              <span className="block">{companies.modification_date ? companies.modification_date : "----"}</span>
-            </div>
-          </div>
-
         </Card>
 
       </div>
