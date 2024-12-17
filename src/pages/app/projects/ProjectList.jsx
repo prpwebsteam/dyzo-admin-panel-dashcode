@@ -48,7 +48,7 @@ const ProjectList = ({ companies }) => {
       Header: "Created At",
       accessor: "created_at", // Map to created_at
       Cell: (row) => {
-        return <span>{new Date(row?.cell?.value).toLocaleDateString('en-IN', options)}</span>;
+        return <span>{new Date(row?.cell?.value).toLocaleDateString('en-IN', options).split(" ").join(",")}</span>;
       },
     },
     {

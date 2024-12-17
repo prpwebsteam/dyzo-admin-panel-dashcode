@@ -8,18 +8,23 @@ const CompanyDetails = () => {
 
   const [companies, setCompanies] = useState({})
   const { id } = useParams()
-  const baseUrl = "http://127.0.0.1:8000";
   const navigate = useNavigate();
   const [date] = companies?.created_at ? companies.created_at.split("T") : ["----", ""];
   const [date1] = companies?.modification_date ? companies.modification_date.split("T") : ["----", ""];
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "----";
+    const options = { day: '2-digit', month: 'short', year: '2-digit' };
+    return new Date(dateString).toLocaleDateString('en-IN', options).split(" ").join(",");
+  };
 
   useEffect(() => {
 
     const getCompanies = async () => {
       try {
-        const companies = await fetchGET(`${baseUrl}/company/${id}`)
+        const companies = await fetchGET(`${import.meta.env.VITE_APP_BASEURL}/company/${id}`)
         setCompanies(companies)
-        // console.log("companyDetails", companies)
+        console.log("companyDetails", companies)
       } catch (error) {
         console.log('Error in companies fetch', error.message)
         setCompanies([])
@@ -45,14 +50,14 @@ const CompanyDetails = () => {
               {companies?.company_logo ? (
                 <div className='flex item-center'>
                   <img
-                    src={`${baseUrl}${companies?.company_logo}`}
+                    src={`${import.meta.env.VITE_APP_BASEURL}${companies?.company_logo}`}
                     alt={`${companies?.company_logo}`}
                     className="w-full h-full object-cover rounded-full border-4 border-gray-400 transition-all duration-300 ease-in-out group-hover:blur-sm"
                   />
                 </div>
               ) : (
                 <img
-                  src={`${baseUrl}/media/images/defalut.jpg`}
+                  src={`${import.meta.env.VITE_APP_BASEURL}/media/images/defalut.jpg`}
                   alt="default"
                   className="w-full h-full object-cover rounded-full border-4 border-gray-400 transition-all duration-300 ease-in-out group-hover:blur-sm"
                 />
@@ -83,18 +88,8 @@ const CompanyDetails = () => {
                 <Icon icon="mdi-light:calendar" className='h-6 w-6' />
               </div>
               <div>
-                <span className="font-bold">Company Registeration Date:</span>
-                <span className="block">{companies.created_at ? date : "----"}</span>
-              </div>
-            </div>
-
-            <div className='flex items-center'>
-              <div className='mr-2'>
-                <Icon icon="radix-icons:size" className='h-6 w-6' />
-              </div>
-              <div>
-                <span className="font-bold">Company Size:</span>
-                <span className="block">{companies.company_size != "ND" ? companies.company_size : "----"}</span>
+                <span className="font-bold">Company Registration Date:</span>
+                <span className="block">{companies.created_at ? formatDate(date) : "----"}</span>
               </div>
             </div>
 
@@ -142,41 +137,21 @@ const CompanyDetails = () => {
 
             <div className='flex items-center'>
               <div className='mr-2'>
+                <Icon icon="ic:outline-insert-invitation" className='h-6 w-6' />
+              </div>
+              <div className="cursor-pointer" >
+                <span className="font-bold">Invitation Accepted:</span>
+                <span className='block'>{companies.total_employees ? companies.total_employees : "----"}</span>
+              </div>
+            </div>
+
+            <div className='flex items-center'>
+              <div className='mr-2'>
                 <Icon icon="formkit:people" className='h-6 w-6' />
               </div>
               <div>
                 <span className="font-bold">Employee Limit:</span>
                 <span className="block">{companies.employee_limit ? companies.employee_limit : "----"}</span>
-              </div>
-            </div>
-
-            <div className='flex items-center'>
-              <div className='mr-2'>
-                <Icon icon="fluent:screenshot-28-regular" className='h-6 w-6' />
-              </div>
-              <div>
-                <span className="font-bold">Mode of Screenshot:</span>
-                <span className="block">{companies.screenshot_mode ? companies.screenshot_mode : "----"}</span>
-              </div>
-            </div>
-            
-            <div className='flex items-center'>
-              <div className='mr-2'>
-                <Icon icon="mingcute:time-line" className='h-6 w-6' />
-              </div>
-              <div>
-                <span className="font-bold">Interval Time:</span>
-                <span className="block">{companies.interval_time ? companies.interval_time : "----"}</span>
-              </div>
-            </div>
-
-            <div className='flex items-center'>
-              <div className='mr-2'>
-                <Icon icon="mdi-light:calendar" className='h-6 w-6' />
-              </div>
-              <div>
-                <span className="font-bold">Modification Date:</span>
-                <span className="block">{companies.modification_date ? date1 : "----"}</span>
               </div>
             </div>
 
@@ -189,6 +164,75 @@ const CompanyDetails = () => {
                 <span className='block'>{companies.total_employees ? companies.total_employees : "----"}</span>
               </div>
             </div>
+
+            <div className='flex items-center'>
+              <div className='mr-2'>
+                <Icon icon="fluent:screenshot-28-regular" className='h-6 w-6' />
+              </div>
+              <div>
+                <span className="font-bold">Mode of Screenshot:</span>
+                <span className="block">{companies.screenshot_mode ? companies.screenshot_mode : "----"}</span>
+              </div>
+            </div>
+
+            <div className='flex items-center'>
+              <div className='mr-2'>
+                <Icon icon="qlementine-icons:screenshot-16" className='h-6 w-6' />
+              </div>
+              <div>
+                <span className="font-bold">Screenshots:</span>
+                <span className="block">{companies.screenshot_count && companies.screenshot_count}</span>
+              </div>
+            </div>
+            <div className='flex items-center'>
+              <div className='mr-2'>
+                <Icon icon="qlementine-icons:screenshot-16" className='h-6 w-6' />
+              </div>
+              <div>
+                <span className="font-bold">Screenshot Time:</span>
+                <span className="block">{companies.screenshot_time ? companies.screenshot_time : "----"}</span>
+              </div>
+            </div>
+            <div className='flex items-center'>
+              <div className='mr-2'>
+                <Icon icon="qlementine-icons:screenshot-16" className='h-6 w-6' />
+              </div>
+              <div>
+                <span className="font-bold">Screenshot Reduced Time:</span>
+                <span className="block">{companies.screenshot_reduced_time ? companies.screenshot_reduced_time : "----"}</span>
+              </div>
+            </div>
+
+            <div className='flex items-center'>
+              <div className='mr-2'>
+                <Icon icon="mingcute:time-line" className='h-6 w-6' />
+              </div>
+              <div>
+                <span className="font-bold">Interval Time:</span>
+                <span className="block">{companies.interval_time ? companies.interval_time : "----"}</span>
+              </div>
+            </div>
+
+            <div className='flex items-center'>
+              <div className='mr-2'>
+                <Icon icon="radix-icons:size" className='h-6 w-6' />
+              </div>
+              <div>
+                <span className="font-bold">Company Size:</span>
+                <span className="block">{companies.company_size != "ND" ? companies.company_size : "----"}</span>
+              </div>
+            </div>
+
+            <div className='flex items-center'>
+              <div className='mr-2'>
+                <Icon icon="mdi-light:calendar" className='h-6 w-6' />
+              </div>
+              <div>
+                <span className="font-bold">Modification Date:</span>
+                <span className="block">{companies.modification_date ? formatDate(date1) : "----"}</span>
+              </div>
+            </div>
+
           </div>
         </Card>
 
