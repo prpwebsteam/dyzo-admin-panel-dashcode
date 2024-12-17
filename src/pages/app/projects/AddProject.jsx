@@ -128,7 +128,8 @@ const AddProject = () => {
   return (
     <div>
       <Modal
-        title="Create Company"
+        title="
+        Add Company"
         labelclassName="btn-outline-dark"
         activeModal={openProjectModal}
         onClose={() => dispatch(toggleAddModal(false))}

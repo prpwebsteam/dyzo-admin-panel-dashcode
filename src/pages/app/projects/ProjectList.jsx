@@ -12,6 +12,8 @@ const ProjectList = ({ companies }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const options = { day: '2-digit', month: 'short', year: '2-digit' };
+
   const COLUMNS = [
     {
       Header: "Company Name",
@@ -34,19 +36,19 @@ const ProjectList = ({ companies }) => {
       },
     },
     {
-      Header:"Admin",
-      accessor:"isSuperAdmin_employee[0].name"
+      Header: "Admin",
+      accessor: "isSuperAdmin_employee[0].name"
     },
     {
       Header: "Contact",
       accessor: "isSuperAdmin_employee[0].email", // Map to created_at
-      
+
     },
     {
       Header: "Created At",
       accessor: "created_at", // Map to created_at
       Cell: (row) => {
-        return <span>{new Date(row?.cell?.value).toLocaleDateString()}</span>;
+        return <span>{new Date(row?.cell?.value).toLocaleDateString('en-IN', options).split(" ").join(",")}</span>;
       },
     },
     {
@@ -87,25 +89,25 @@ const ProjectList = ({ companies }) => {
       Cell: (row) => {
         return (
           <div>
-            
-              <div className=" flex  dark:divide-slate-800">
-                {actions.map((item, i) => (
-                  <div
-                    key={i}
-                    onClick={() =>
-                       item.doit(row?.row?.original)
-                      }
-                  >
-                    <div className={`w-full  border-opacity-10 px-2 py-2 text-sm`}>
-                      <span className="text-base cursor-pointer">
-                        <Icon icon={item.icon} />
-                      </span>
-                     
-                    </div>
+
+            <div className=" flex  dark:divide-slate-800">
+              {actions.map((item, i) => (
+                <div
+                  key={i}
+                  onClick={() =>
+                    item.doit(row?.row?.original)
+                  }
+                >
+                  <div className={`w-full  border-opacity-10 px-2 py-2 text-sm`}>
+                    <span className="text-base cursor-pointer">
+                      <Icon icon={item.icon} />
+                    </span>
+
                   </div>
-                ))}
-              </div>
-            
+                </div>
+              ))}
+            </div>
+
           </div>
         );
       },
@@ -116,10 +118,8 @@ const ProjectList = ({ companies }) => {
     {
       name: "view",
       icon: "heroicons-outline:eye",
-      doit: (item) => 
-        // console.log("iiid", item)
-        // navigate(`/companieslist/${item}`)
-        navigate(`/companydetail/${item._id}`)
+      doit: (item) =>
+        navigate(`/companies/companydetail/${item._id}`)
       ,
     },
     {
@@ -212,7 +212,7 @@ const ProjectList = ({ companies }) => {
                   {page.map((row) => {
                     prepareRow(row);
                     return (
-                      <tr {...row.getRowProps()} className="even:bg-slate-100 dark:even:bg-slate-700">
+                      <tr {...row.getRowProps()} onClick={() =>navigate(`/companies/companydetail/${row.cells[0].row.original._id}`)} className="even:bg-slate-100 dark:even:bg-slate-700 cursor-pointer">
                         {row.cells.map((cell) => (
                           <td {...cell.getCellProps()} className="table-td">
                             {cell.render("Cell")}

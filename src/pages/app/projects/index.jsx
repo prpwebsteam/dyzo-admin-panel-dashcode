@@ -19,7 +19,7 @@ const CompanyPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [companies, setCompanies] = useState([])
   const [status, setStatus] = useState('all')
-  const[filterCompanies,setFilterCompanies] = useState(companies)
+  const [filterCompanies, setFilterCompanies] = useState(companies)
 
   const dispatch = useDispatch();
 
@@ -58,28 +58,36 @@ const CompanyPage = () => {
 
   useEffect(() => {
     // if(status === "all") return
-    console.log(status,"jhhhggjhhg")
-     
-    
-    if(status === 'active'){
-      setFilterCompanies( companies.filter((company) => company.isActive == true))
-      console.log(filterCompanies,"active")
-      
+    console.log(status, "jhhhggjhhg")
+
+    if (status === 'active') {
+      setFilterCompanies(companies.filter((company) => company.isActive == true))
+      console.log(filterCompanies, "active")
+
       return;
-    }else if(status === 'inactive'){
-      setFilterCompanies( companies.filter((company) => company.isActive != true))
-      console.log(filterCompanies,"inactive")
-    
+    } else if (status === 'inactive') {
+      setFilterCompanies(companies.filter((company) => company.isActive != true))
+      console.log(filterCompanies, "inactive")
+
       return;
     }
-    else{
+    else if (status === 'date') {
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+      const filterCompanies = companies.filter(company => {
+        const createdDate = new Date(company.created_at);
+        return createdDate >= oneMonthAgo;
+      });
+      setFilterCompanies(filterCompanies);
+      return;
+    } else {
       setFilterCompanies(companies)
-      
-      console.log(filterCompanies,"allactive")
+
+      console.log(filterCompanies, "allactive")
       return;
     }
-    
-    
+
+
 
   }, [status])
 
@@ -107,19 +115,24 @@ const CompanyPage = () => {
             <div className="px-4 py-2">
               <div className="flex space-x-2">
                 <button
-                  className={`px-3 py-1 text-sm border ${status === 'all' ? 'bg-primary-500 text-white' : 'bg-white text-black-500'}  text-white rounded-md`} onClick={() => setStatus('all')}
+                  className={`px-3 py-1 text-sm border ${status === 'all' ? 'bg-primary-500 text-white' : 'bg-white text-black-500'} rounded-md`} onClick={() => setStatus('all')}
                 >
                   All
                 </button>
                 <button
-                  className={`px-3 py-1 text-sm border  ${status === 'active' ? 'bg-primary-500 text-white' : 'bg-white text-black-500'} text-white rounded-md `} onClick={() => setStatus('active')}
+                  className={`px-3 py-1 text-sm border  ${status === 'active' ? 'bg-primary-500 text-white' : 'bg-white text-black-500'} rounded-md `} onClick={() => setStatus('active')}
                 >
                   Active
                 </button>
                 <button
-                  className={`px-3 py-1 text-sm border  ${status === 'inactive' ? 'bg-primary-500 text-white ' : 'bg-white text-black-500'} text-white rounded-md `} onClick={() => setStatus('inactive')}
-                  >
+                  className={`px-3 py-1 text-sm border  ${status === 'inactive' ? 'bg-primary-500 text-white ' : 'bg-white text-black-500'} rounded-md `} onClick={() => setStatus('inactive')}
+                >
                   Inactive
+                </button>
+                <button
+                  className={`px-3 py-1 text-sm border  ${status === 'date' ? 'bg-primary-500 text-white ' : 'bg-white text-black-500'} rounded-md `} onClick={() => setStatus('date')}
+                >
+                  Date
                 </button>
               </div>
             </div>

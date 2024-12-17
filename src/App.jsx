@@ -127,6 +127,7 @@ import Customers from "./pages/ecommerce/customers";
 import Sellers from "./pages/ecommerce/sellers";
 import AddProduct from "./pages/ecommerce/add-product";
 import InvoiceEPage from "./pages/ecommerce/invoice-ecompage";
+import EmployeeList from "./pages/app/projects/EmployeeList";
 
 function App() {
   return (
@@ -157,7 +158,8 @@ function App() {
           <Route path="email" element={<EmailPage />} />
           <Route path="chat" element={<ChatPage />} />
           <Route path="companies" element={<CompanyPage />} />
-          <Route path="companydetail/:id" element={<CompanyDetails />} />
+          <Route path="companies/companydetail/:id" element={<CompanyDetails />} />
+          <Route path="companies/companydetail/employeelist/:id" element={<EmployeeList />} />
           
           <Route path={"projects/:id"} element={<ProjectDetailsPage />} />
           <Route path="project-details" element={<ProjectDetailsPage />} />
